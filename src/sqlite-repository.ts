@@ -59,6 +59,20 @@ export abstract class SqliteRepository<T extends BaseDocument, TRepository>
         return this.newRepo({ ...this.query, take: value })
     }
 
+    async toDictionary<TKey extends string | number | symbol, TValue>(key: (t: T) => TKey, value: (t: T) => TValue) {
+        return this.toList().then((r) =>
+            r.reduce((acc, item) => {
+                acc[key(item)] = value(item)
+                return acc
+            }, {} as Record<TKey, TValue>)
+        )
+    }
+
+    async reduce<TValue>(reducer: (acc: TValue, item: T) => void, acc: TValue) {
+        await this.toList().then((r) => r.forEach((item) => reducer(acc, item)))
+        return acc
+    }
+
     select<TNew>(selector: (doc: T) => TNew) {
         const fields: string[] = ['id']
         const proxy = new Proxy(

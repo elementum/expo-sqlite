@@ -12,4 +12,6 @@ export class QueryModel {
     orderBy: { column: string; direction: 'ASC' | 'DESC' }[]
 }
 
-export type WhereModel = { column: string; value: any }
+export type WhereModel = { column: string; value: any; operation?: WhereOperation }
+
+export type WhereOperation = 'equal' | 'not_equal' | 'greater' | 'greater_or_equal' | 'less' | 'less_or_equal'
