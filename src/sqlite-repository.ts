@@ -30,7 +30,7 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
 
 class SealedRepository<T> extends SqliteQueryable<T> {}
 
-export abstract class SqliteRepository<T extends BaseDocument, TRepository>
+export abstract class SqliteRepository<T extends BaseDocument<TID>, TRepository, TID = string>
     extends SqliteQueryable<T>
     implements IRepository<T>
 {
