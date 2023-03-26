@@ -23,4 +23,10 @@ export type WhereModel<T = any, K extends keyof T = any> = {
     operation?: WhereOperation
 }
 
-export type WhereOperation = 'equal' | 'not_equal' | 'greater' | 'greater_or_equal' | 'less' | 'less_or_equal'
+export type WhereOperation =
+    | 'equal_to'
+    | 'not_equal_to'
+    | 'greater_than'
+    | 'greater_or_equal_than'
+    | 'less_than'
+    | 'less_or_equal_than'

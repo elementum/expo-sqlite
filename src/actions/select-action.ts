@@ -48,23 +48,23 @@ export class SelectAction<T> extends SqliteAction<T[]> {
             const whereStatements: string[] = []
             for (const where of this.model.where) {
                 switch (where.operation) {
-                    case 'greater':
+                    case 'greater_than':
                         whereStatements.push(`${where.column as string} > ?`)
                         break
-                    case 'greater_or_equal':
+                    case 'greater_or_equal_than':
                         whereStatements.push(`${where.column as string} >= ?`)
                         break
-                    case 'less':
+                    case 'less_than':
                         whereStatements.push(`${where.column as string} < ?`)
                         break
-                    case 'less_or_equal':
+                    case 'less_or_equal_than':
                         whereStatements.push(`${where.column as string} <= ?`)
                         break
-                    case 'not_equal':
+                    case 'not_equal_to':
                         whereStatements.push(`${where.column as string} IS NOT ?`)
                         break
 
-                    case 'equal':
+                    case 'equal_to':
                     default:
                         whereStatements.push(`${where.column as string} IS ?`)
                 }

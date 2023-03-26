@@ -45,7 +45,7 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
 
     protected abstract newRepo(model: Partial<QueryModel>): TRepository
 
-    where<K extends keyof T>(column: K, value: T[K], operation: WhereOperation = 'equal'): TRepository {
+    where<K extends keyof T>(column: K, operation: WhereOperation, value: T[K]): TRepository {
         return this.newRepo({ ...this.query, where: [...this.query.where, { column, value, operation }] })
     }
 
