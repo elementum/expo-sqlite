@@ -19,7 +19,7 @@
     "author": "Eugene Doronin",
     "license": "ISC",
     "dependencies": {
-        "@elementum/db": "^2.1.0",
+        "@elementum/db": "^2.3.0",
         "@elementum/logging": "^2.0.0",
         "@elementum/toolkit": "^3.0.0",
         "expo-sqlite": "~11.0.0"
