@@ -45,7 +45,7 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
 
     protected abstract newRepo(model: Partial<QueryModel>): TRepository
 
-    where(where: WhereModel): TRepository {
+    where(where: WhereModel<T>): TRepository {
         return this.newRepo({ ...this.query, where: [...this.query.where, where] })
     }
 
