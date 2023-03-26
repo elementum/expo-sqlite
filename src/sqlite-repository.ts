@@ -1,0 +1,81 @@
+/* eslint-disable max-classes-per-file */
+import { BaseDocument, DatabaseAction, IQueryable, IRepository } from '@elementum/db'
+import { PartialDeep } from '@elementum/toolkit/types'
+import { QueryModel, WhereModel } from './query-model.js'
+import { ExpoSqliteProvider } from './sqlite-provider.js'
+
+export abstract class SqliteQueryable<T> implements IQueryable<T> {
+    constructor(
+        protected provider: ExpoSqliteProvider,
+        protected table: string,
+        protected query?: Partial<QueryModel>
+    ) {
+        this.query = this.query || {}
+    }
+
+    toList(): Promise<Pick<T, keyof T>[]> {
+        const action = this.provider.select<T>(this.query, this.table)
+        return action.invoke()
+    }
+
+    async firstOrDefault(): Promise<Pick<T, keyof T>> {
+        this.query.take = 1
+
+        const action = this.provider.select<T>(this.query, this.table)
+        const rows = await action.invoke()
+        return rows[0]
+    }
+}
+
+class SealedRepository<T> extends SqliteQueryable<T> {}
+
+export abstract class SqliteRepository<T extends BaseDocument, TRepository>
+    extends SqliteQueryable<T>
+    implements IRepository<T>
+{
+    delete(id: string): DatabaseAction {
+        throw new Error('Method not implemented.')
+    }
+
+    update(doc: Partial<T> & { id: number }): DatabaseAction {
+        return this.provider.update(doc, this.table)
+    }
+
+    create(doc: PartialDeep<T>): DatabaseAction {
+        return this.provider.create(doc, this.table)
+    }
+
+    protected abstract newRepo(model: Partial<QueryModel>): TRepository
+
+    where(where: WhereModel): TRepository {
+        return this.newRepo({ ...this.query, where: [...this.query.where, where] })
+    }
+
+    skip(value: number): TRepository {
+        return this.newRepo({ ...this.query, skip: value })
+    }
+
+    take(value: number): TRepository {
+        return this.newRepo({ ...this.query, take: value })
+    }
+
+    select<TNew>(selector: (doc: T) => TNew) {
+        const fields: string[] = ['id']
+        const proxy = new Proxy(
+            {},
+            {
+                get: (target, key: string) => {
+                    fields.push(key)
+                },
+            }
+        )
+
+        selector(proxy as T)
+
+        return new SealedRepository<TNew>(this.provider, this.table, {
+            ...this.query,
+            columns: fields as string[],
+            selector,
+        })
+    }
+}

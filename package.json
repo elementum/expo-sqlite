@@ -1,0 +1,38 @@
+{
+    "name": "@elementum/expo-sqlite",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "exports": {
+        ".": "./dist/index.js",
+        "./*": "./dist/*.js"
+    },
+    "scripts": {
+        "prebuild": "rimraf ./dist",
+        "build": "tsc -p ./tsconfig.json",
+        "start": "node --experimental-specifier-resolution=node dist/test.js",
+        "test": "npm run build && node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/jest/bin/jest.js ./dist",
+        "lint": "eslint **/*.ts --resolve-plugins-relative-to=./node_modules/@elementum/linter",
+        "release": "semantic-release"
+    },
+    "author": "Eugene Doronin",
+    "license": "ISC",
+    "dependencies": {
+        "@elementum/db": "^2.1.0",
+        "@elementum/logging": "^2.0.0",
+        "@elementum/toolkit": "^3.0.0",
+        "expo-sqlite": "~11.0.0"
+    },
+    "devDependencies": {
+        "semantic-release": "^19.0.0",
+        "@semantic-release/git": "^10.0.1",
+        "conventional-changelog-conventionalcommits": "^5.0.0",
+        "@elementum/linter": "^1.0.0",
+        "@types/jest": "^27.0.3",
+        "eslint": "^8.11.0",
+        "jest": "^27.3.1",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.1.3"
+    }
+}

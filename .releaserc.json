@@ -1,0 +1,39 @@
+{
+    "branches": [
+        "master",
+        {
+            "name": "staging",
+            "prerelease": true
+        },
+        {
+            "name": "demo",
+            "prerelease": true
+        },
+        {
+            "name": "*",
+            "prerelease": true
+        }
+    ],
+    "plugins": [
+        [
+            "@semantic-release/commit-analyzer",
+            {
+                "preset": "conventionalcommits"
+            }
+        ],
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                "preset": "conventionalcommits"
+            }
+        ],
+        ["@semantic-release/npm", { "npmPublish": true }],
+        [
+            "@semantic-release/git",
+            {
+                "assets": ["docs", "package-lock.json", "package.json"],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}
