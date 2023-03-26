@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { BaseDocument, DatabaseAction, IQueryable, IRepository } from '@elementum/db'
 import { PartialDeep } from '@elementum/toolkit/types'
+import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereModel } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
 
@@ -57,6 +58,35 @@ export abstract class SqliteRepository<T extends BaseDocument, TRepository>
 
     take(value: number): TRepository {
         return this.newRepo({ ...this.query, take: value })
+    }
+
+    orderBy<TColumn>(selector: (t: T) => TColumn, direction: 'ASC' | 'DESC') {
+        const accessor = fieldAccessor()
+        selector(accessor as any)
+
+        const fields = accessor.getFields()
+        if (fields.length !== 1) {
+            throw Error(`Order by requires exactly one column. Column you referenced: ${fields.join(', ')}`)
+        }
+
+        const query: Partial<QueryModel> = { ...this.query, orderBy: [{ column: fields[0], direction }] }
+        return this.newRepo(query)
+    }
+
+    thenBy<TColumn>(selector: (t: T) => TColumn, direction: 'ASC' | 'DESC') {
+        const accessor = fieldAccessor()
+        selector(accessor as any)
+
+        const fields = accessor.getFields()
+        if (fields.length !== 1) {
+            throw Error(`Then by requires exactly one column. Column you referenced: ${fields.join(', ')}`)
+        }
+
+        const query: Partial<QueryModel> = {
+            ...this.query,
+            orderBy: [...(this.query.orderBy || []), { column: fields[0], direction }],
+        }
+        return this.newRepo(query)
     }
 
     async toDictionary<TKey extends string | number | symbol, TValue>(key: (t: T) => TKey, value: (t: T) => TValue) {

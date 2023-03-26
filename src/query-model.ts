@@ -9,7 +9,12 @@ export class QueryModel {
 
     where: WhereModel[] = []
 
-    orderBy: { column: string; direction: 'ASC' | 'DESC' }[]
+    orderBy: OrderBy[]
+}
+
+export type OrderBy = {
+    column: string
+    direction: 'ASC' | 'DESC'
 }
 
 export type WhereModel = { column: string; value: any; operation?: WhereOperation }
