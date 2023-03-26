@@ -17,9 +17,9 @@ export type OrderBy = {
     direction: 'ASC' | 'DESC'
 }
 
-export type WhereModel<T = any> = {
-    column: keyof T
-    value: any
+export type WhereModel<T = any, K extends keyof T = any> = {
+    column: K
+    value: T[K]
     operation?: WhereOperation
 }
 

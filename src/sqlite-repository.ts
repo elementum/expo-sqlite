@@ -2,7 +2,7 @@
 import { DatabaseAction, IQueryable, IRepository } from '@elementum/db'
 import { PartialDeep } from '@elementum/toolkit/types'
 import { fieldAccessor } from './field-accessor.js'
-import { QueryModel, WhereModel } from './query-model.js'
+import { QueryModel, WhereOperation } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
@@ -45,8 +45,8 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
 
     protected abstract newRepo(model: Partial<QueryModel>): TRepository
 
-    where(where: WhereModel<T>): TRepository {
-        return this.newRepo({ ...this.query, where: [...this.query.where, where] })
+    where<K extends keyof T>(column: K, value: T[K], operation: WhereOperation = 'equal'): TRepository {
+        return this.newRepo({ ...this.query, where: [...this.query.where, { column, value, operation }] })
     }
 
     skip(value: number): TRepository {
