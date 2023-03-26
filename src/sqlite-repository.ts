@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { BaseDocument, DatabaseAction, IQueryable, IRepository } from '@elementum/db'
+import { DatabaseAction, IQueryable, IRepository } from '@elementum/db'
 import { PartialDeep } from '@elementum/toolkit/types'
 import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereModel } from './query-model.js'
@@ -30,10 +30,7 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
 
 class SealedRepository<T> extends SqliteQueryable<T> {}
 
-export abstract class SqliteRepository<T extends BaseDocument<TID>, TRepository, TID = string>
-    extends SqliteQueryable<T>
-    implements IRepository<T>
-{
+export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T> implements IRepository<T> {
     delete(id: string): DatabaseAction {
         throw new Error('Method not implemented.')
     }
