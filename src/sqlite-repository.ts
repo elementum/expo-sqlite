@@ -4,6 +4,7 @@ import { PartialDeep } from '@elementum/toolkit/types'
 import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereOperation } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
+import { CreateAction } from './actions/create-action.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
     constructor(
@@ -39,7 +40,7 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
         return this.provider.update(doc, this.table)
     }
 
-    create(doc: PartialDeep<T>): DatabaseAction {
+    create(doc: PartialDeep<T>): CreateAction {
         return this.provider.create(doc, this.table)
     }
 
