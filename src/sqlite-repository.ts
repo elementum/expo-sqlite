@@ -46,7 +46,7 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
     }
 
     batchUpdate() {
-        return this.provider.batchUpdate(this.query, this.table)
+        return this.provider.batchUpdate<T>(this.query, this.table)
     }
 
     create(doc: PartialDeep<T>): CreateAction<T> {
