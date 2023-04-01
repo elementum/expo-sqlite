@@ -5,7 +5,6 @@ import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereOperation } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
 import { CreateAction } from './actions/create-action.js'
-import { UpdateAction } from './actions/update-action.js'
 import { BaseEntity } from './base-entity.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
@@ -41,11 +40,7 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
         throw new Error('Method not implemented.')
     }
 
-    update(doc: Partial<T> & { id: number }): UpdateAction<T> {
-        return this.provider.update(doc as T, this.table)
-    }
-
-    batchUpdate() {
+    update() {
         return this.provider.batchUpdate<T>(this.query, this.table)
     }
 
