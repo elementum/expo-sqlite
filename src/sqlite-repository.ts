@@ -14,12 +14,12 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
         this.query = this.query || {}
     }
 
-    toList(): Promise<Pick<T, keyof T>[]> {
+    many() {
         const action = this.provider.select<T>(this.query, this.table)
         return action.invoke()
     }
 
-    async firstOrDefault(): Promise<Pick<T, keyof T>> {
+    async one(): Promise<Pick<T, keyof T>> {
         this.query.take = 1
 
         const action = this.provider.select<T>(this.query, this.table)
@@ -87,7 +87,7 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
     }
 
     async toDictionary<TKey extends string | number | symbol, TValue>(key: (t: T) => TKey, value: (t: T) => TValue) {
-        return this.toList().then((r) =>
+        return this.many().then((r) =>
             r.reduce((acc, item) => {
                 acc[key(item)] = value(item)
                 return acc
@@ -96,7 +96,7 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
     }
 
     async reduce<TValue>(reducer: (acc: TValue, item: T) => void, acc: TValue) {
-        await this.toList().then((r) => r.forEach((item) => reducer(acc, item)))
+        await this.many().then((r) => r.forEach((item) => reducer(acc, item)))
         return acc
     }
 
