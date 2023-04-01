@@ -7,7 +7,6 @@ import { ExpoSqliteProvider } from './sqlite-provider.js'
 import { CreateAction } from './actions/create-action.js'
 import { UpdateAction } from './actions/update-action.js'
 import { BaseEntity } from './base-entity.js'
-import { BatchUpdateAction } from './actions/batch-update-action.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
     constructor(
