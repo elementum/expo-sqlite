@@ -40,8 +40,8 @@ export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T
         return this.provider.update(doc, this.table)
     }
 
-    create(doc: PartialDeep<T>): CreateAction {
-        return this.provider.create(doc, this.table)
+    create(doc: PartialDeep<T>): CreateAction<T> {
+        return this.provider.create(doc as T, this.table)
     }
 
     protected abstract newRepo(model: Partial<QueryModel>): TRepository
