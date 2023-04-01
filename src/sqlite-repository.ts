@@ -19,7 +19,7 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
         return action.invoke()
     }
 
-    async one(): Promise<Pick<T, keyof T>> {
+    async one() {
         this.query.take = 1
 
         const action = this.provider.select<T>(this.query, this.table)
