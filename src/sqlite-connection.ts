@@ -16,7 +16,7 @@ export class SqliteConnection extends DatabaseConnection<ExpoSqliteProvider> {
     }
 
     async connect() {
-        this.client = SQLite.openDatabase(this.options.database)
+        this.client = new Client(SQLite.openDatabase(this.options.database))
         return new ExpoSqliteProvider(this.client)
     }
 
