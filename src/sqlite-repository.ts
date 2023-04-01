@@ -5,6 +5,8 @@ import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereOperation } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
 import { CreateAction } from './actions/create-action.js'
+import { UpdateAction } from './actions/update-action.js'
+import { BaseEntity } from './base-entity.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
     constructor(
@@ -31,13 +33,16 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
 
 class SealedRepository<T> extends SqliteQueryable<T> {}
 
-export abstract class SqliteRepository<T, TRepository> extends SqliteQueryable<T> implements IRepository<T> {
+export abstract class SqliteRepository<T extends BaseEntity, TRepository>
+    extends SqliteQueryable<T>
+    implements IRepository<T>
+{
     delete(id: string): DatabaseAction {
         throw new Error('Method not implemented.')
     }
 
-    update(doc: Partial<T> & { id: number }): DatabaseAction {
-        return this.provider.update(doc, this.table)
+    update(doc: Partial<T>): UpdateAction<T> {
+        return this.provider.update(doc as T, this.table)
     }
 
     create(doc: PartialDeep<T>): CreateAction<T> {

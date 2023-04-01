@@ -1,7 +1,8 @@
+import { BaseEntity } from '../base-entity.js'
 import { Client } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
 
-export class UpdateAction<T extends { id: number }> extends SqliteAction {
+export class UpdateAction<T extends BaseEntity> extends SqliteAction {
     constructor(client: Client, private index: string, private doc: T) {
         super(client)
     }

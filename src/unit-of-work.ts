@@ -1,12 +1,15 @@
 import { CreateAction } from './actions/create-action.js'
-import { BatchUpdater } from './batch-updater.js'
+import { UpdateAction } from './actions/update-action.js'
+import { BatchUpdateAction } from './actions/batch-update-action.js'
 import generateSqlForInsertGroup, { GroupInsertModel } from './sql-generators/insert-group.js'
+import { BaseEntity } from './base-entity.js'
+import { SqliteAction } from './actions/sqlite-action.js'
 
 // eslint-disable-next-line import/prefer-default-export
 export class UnitOfWork {
     private creaters: CreateAction[] = []
 
-    private updaters: BatchUpdater[] = []
+    private updaters: SqliteAction<any>[] = []
 
     add(model: CreateAction) {
         this.creaters.push(model)
@@ -24,7 +27,7 @@ export class UnitOfWork {
 
     async performUpdate() {
         for (const updater of this.updaters) {
-            await updater.execute()
+            await updater.invoke()
         }
     }
 
@@ -37,7 +40,7 @@ export class UnitOfWork {
         }
     }
 
-    update(updater: BatchUpdater) {
+    update<T extends BaseEntity>(updater: BatchUpdateAction<T> | UpdateAction<T>) {
         this.updaters.push(updater)
     }
 
