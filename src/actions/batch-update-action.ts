@@ -3,7 +3,7 @@ import { Client } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
 
 export class BatchUpdateAction<T = any> extends SqliteAction<T> {
-    constructor(client: Client, private query: QueryModel, private table: string) {
+    constructor(client: Client, private query: Partial<QueryModel>, private table: string) {
         super(client)
     }
 

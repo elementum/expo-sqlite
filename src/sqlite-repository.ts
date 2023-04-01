@@ -7,6 +7,7 @@ import { ExpoSqliteProvider } from './sqlite-provider.js'
 import { CreateAction } from './actions/create-action.js'
 import { UpdateAction } from './actions/update-action.js'
 import { BaseEntity } from './base-entity.js'
+import { BatchUpdateAction } from './actions/batch-update-action.js'
 
 export abstract class SqliteQueryable<T> implements IQueryable<T> {
     constructor(
@@ -41,8 +42,12 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
         throw new Error('Method not implemented.')
     }
 
-    update(doc: Partial<T>): UpdateAction<T> {
+    update(doc: Partial<T> & { id: number }): UpdateAction<T> {
         return this.provider.update(doc as T, this.table)
+    }
+
+    batchUpdate() {
+        return this.provider.batchUpdate(this.query, this.table)
     }
 
     create(doc: PartialDeep<T>): CreateAction<T> {
@@ -90,6 +95,11 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
             orderBy: [...(this.query.orderBy || []), { column: fields[0], direction }],
         }
         return this.newRepo(query)
+    }
+
+    async count(): Promise<number> {
+        const action = this.provider.count(this.query, this.table)
+        return action.invoke()
     }
 
     async toDictionary<TKey extends string | number | symbol, TValue>(key: (t: T) => TKey, value: (t: T) => TValue) {
