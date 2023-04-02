@@ -8,8 +8,9 @@ export class CountAction extends SqliteAction {
     }
 
     async invoke() {
-        const sql = `SELECT COUNT(*) FROM ${this.table} ${this.getWhereStatement(this.query.where)}`
-        const results = await this.read(sql)
+        const whereStatement = this.getWhereStatement(this.query.where)
+        const sql = `SELECT COUNT(*) FROM ${this.table} ${whereStatement.statement}`
+        const results = await this.read(sql, whereStatement.params)
         const result = results[0]
         return Object.values(result)[0] as number
     }

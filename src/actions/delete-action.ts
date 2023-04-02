@@ -8,6 +8,6 @@ export class DeleteAction extends SqliteAction {
 
     async invoke() {
         const sql = `DELETE FROM ${this.index} where ID = ?`
-        await this.write(sql, this.id)
+        await this.write(sql, [this.id])
     }
 }
