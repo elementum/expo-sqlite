@@ -8,9 +8,9 @@ export abstract class SqliteAction<T = any> extends DatabaseAction<T> {
         super()
     }
 
-    read = (sql: string, ...params: any[]): Promise<T> => this.client.read(sql, params)
+    read = (sql: string, params: any[]): Promise<T> => this.client.read(sql, params)
 
-    write = (sql: string, ...params: any[]) => this.client.write(sql, params)
+    write = (sql: string, params: any[]) => this.client.write(sql, params)
 
     protected getWhereStatement(wheres: WhereModel[]) {
         let statement = ''
