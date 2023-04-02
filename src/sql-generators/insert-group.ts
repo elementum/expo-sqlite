@@ -1,9 +1,9 @@
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 
 export type GroupInsertModel = {
     table: string
     entities: any
-    client: Client
+    client: ExpoSqliteClient
 }
 
 function getValue(value: any): string {

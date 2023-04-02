@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as SQLite from 'expo-sqlite'
 
-export class Client {
+export class ExpoSqliteClient {
     constructor(private sqlite: SQLite.WebSQLDatabase) {}
 
     read = <T = any>(sql: string, ...params: any[]): Promise<T> => {

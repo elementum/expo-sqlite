@@ -3,14 +3,14 @@ import { CreateAction } from './actions/create-action.js'
 import { DeleteAction } from './actions/delete-action.js'
 import { SelectAction } from './actions/select-action.js'
 import { UpdateAction } from './actions/update-action.js'
-import { Client } from './client.js'
+import { ExpoSqliteClient } from './client.js'
 import { QueryModel } from './query-model.js'
 import { BaseEntity } from './base-entity.js'
 import { CountAction } from './actions/count-action.js'
 import { BatchUpdateAction } from './actions/batch-update-action.js'
 
 export class ExpoSqliteProvider extends DatabaseProvider {
-    constructor(public client: Client) {
+    constructor(public client: ExpoSqliteClient) {
         super()
     }
 

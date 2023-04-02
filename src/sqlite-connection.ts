@@ -1,7 +1,7 @@
 import { DatabaseConnection } from '@elementum/db'
 import { MaybePromise } from '@elementum/toolkit'
 import * as SQLite from 'expo-sqlite'
-import { Client } from './client.js'
+import { ExpoSqliteClient } from './client.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
 
 type Options = {
@@ -9,14 +9,14 @@ type Options = {
 }
 
 export class SqliteConnection extends DatabaseConnection<ExpoSqliteProvider> {
-    client: Client
+    client: ExpoSqliteClient
 
     constructor(private options: Options) {
         super()
     }
 
     async connect() {
-        this.client = new Client(SQLite.openDatabase(this.options.database))
+        this.client = new ExpoSqliteClient(SQLite.openDatabase(this.options.database))
         return new ExpoSqliteProvider(this.client)
     }
 

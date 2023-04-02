@@ -1,8 +1,8 @@
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
 
 export class CreateAction<T = any> extends SqliteAction {
-    constructor(client: Client, public table: string, public doc: T) {
+    constructor(client: ExpoSqliteClient, public table: string, public doc: T) {
         super(client)
     }
 

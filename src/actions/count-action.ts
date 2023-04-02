@@ -1,9 +1,9 @@
 import { SqliteAction } from './sqlite-action.js'
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 import { QueryModel } from '../query-model.js'
 
 export class CountAction extends SqliteAction {
-    constructor(client: Client, public table: string, private query: Partial<QueryModel>) {
+    constructor(client: ExpoSqliteClient, public table: string, private query: Partial<QueryModel>) {
         super(client)
     }
 

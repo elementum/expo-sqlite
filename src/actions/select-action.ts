@@ -1,9 +1,9 @@
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 import { QueryModel } from '../query-model.js'
 import { SqliteAction } from './sqlite-action.js'
 
 export class SelectAction<T> extends SqliteAction<T[]> {
-    constructor(client: Client, private index: string, private model: Partial<QueryModel>) {
+    constructor(client: ExpoSqliteClient, private index: string, private model: Partial<QueryModel>) {
         super(client)
     }
 

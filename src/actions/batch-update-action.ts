@@ -1,10 +1,10 @@
 import { QueryModel } from '@elementum/expo-sqlite'
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
 import { getValue } from '../value-factory.js'
 
 export class BatchUpdateAction<T = any> extends SqliteAction<T> {
-    constructor(client: Client, private query: Partial<QueryModel>, private table: string) {
+    constructor(client: ExpoSqliteClient, private query: Partial<QueryModel>, private table: string) {
         super(client)
     }
 

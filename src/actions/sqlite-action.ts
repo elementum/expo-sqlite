@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { DatabaseAction } from '@elementum/db'
-import { Client } from '../client.js'
+import { ExpoSqliteClient } from '../client.js'
 import { OrderBy, WhereModel } from '../query-model.js'
 
 export abstract class SqliteAction<T = any> extends DatabaseAction<T> {
-    constructor(public client: Client) {
+    constructor(public client: ExpoSqliteClient) {
         super()
     }
 
