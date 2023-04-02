@@ -5,8 +5,7 @@ export class ExpoSqliteClient {
     constructor(private sqlite: SQLite.WebSQLDatabase) {}
 
     read = <T = any>(sql: string, params: any[]): Promise<T> => {
-        console.log(sql)
-        console.log(params)
+        console.log(sql, params)
 
         return new Promise((res, rej) => {
             this.sqlite.readTransaction((t) => {
@@ -24,8 +23,7 @@ export class ExpoSqliteClient {
     }
 
     write = <T = SQLite.SQLResultSet>(sql: string, params: any[]): Promise<T> => {
-        console.log(sql)
-        console.log(params)
+        console.log(sql, params)
 
         return new Promise((res, rej) => {
             this.sqlite.transaction((t) => {

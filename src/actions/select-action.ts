@@ -9,10 +9,7 @@ export class SelectAction<T> extends SqliteAction<T[]> {
 
     async invoke() {
         const select = this.getSelectColumns(this.model.columns)
-        console.log('SELECT', select)
         const where = this.getWhereStatement(this.model.where ?? [])
-        console.log('MODEL WHERE', this.model.where)
-        console.log('WHERE', where)
 
         const order = this.getOrderStatement(this.model.orderBy)
         const offset = typeof this.model.skip === 'number' ? ` OFFSET ${this.model.skip}` : ''
