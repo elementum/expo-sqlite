@@ -36,7 +36,7 @@ export class UnitOfWork {
         for (const group of insertGroups) {
             const sql = generateSqlForInsertGroup(group)
 
-            await group.client.write(sql)
+            await group.client.write(sql, [])
         }
     }
 
