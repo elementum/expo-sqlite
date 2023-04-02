@@ -12,7 +12,7 @@ export class SelectAction<T> extends SqliteAction<T[]> {
         const where = this.getWhereStatement(this.model.where ?? [])
         const order = this.getOrderStatement(this.model.orderBy)
         const offset = typeof this.model.skip === 'number' ? ` OFFSET ${this.model.skip}` : ''
-        const limit = typeof this.model.take === 'number' ? ` LIMIT ${this.model.skip}` : ''
+        const limit = typeof this.model.take === 'number' ? ` LIMIT ${this.model.take}` : ''
         const sql = `SELECT ${select} FROM ${this.index}${where.statement}${order}${offset}${limit}`
 
         const rows = await this.read(sql, where.params)

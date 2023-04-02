@@ -111,7 +111,7 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
     }
 
     select<TNew>(selector: (doc: T) => TNew) {
-        const fields: string[] = ['id']
+        const fields: string[] = []
         const proxy = new Proxy(
             {},
             {
