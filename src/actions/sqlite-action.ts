@@ -16,7 +16,7 @@ export abstract class SqliteAction<T = any> extends DatabaseAction<T> {
         let statement = ''
         const params = []
         if (wheres && wheres.length) {
-            statement += 'WHERE '
+            statement += ' WHERE '
 
             const whereStatements: string[] = []
             for (const where of wheres) {
