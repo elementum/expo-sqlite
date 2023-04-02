@@ -1,6 +1,6 @@
 {
     "name": "@elementum/expo-sqlite",
-    "version": "10.3.1",
+    "version": "10.4.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
