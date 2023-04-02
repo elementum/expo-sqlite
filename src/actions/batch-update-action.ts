@@ -15,7 +15,7 @@ export class BatchUpdateAction<T = any> extends SqliteAction<T> {
     }
 
     async invoke() {
-        const params = []
+        let params = []
         let sql = `UPDATE ${this.table} SET `
         sql += Object.entries(this.setters)
             .map((e) => {
@@ -27,7 +27,7 @@ export class BatchUpdateAction<T = any> extends SqliteAction<T> {
         const whereStatement = this.getWhereStatement(this.query.where)
         if (whereStatement) {
             sql += whereStatement.statement
-            params.push(whereStatement.statement)
+            params = [...params, ...whereStatement.params]
         }
 
         await this.client.write(sql, params)
