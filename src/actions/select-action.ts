@@ -11,6 +11,7 @@ export class SelectAction<T> extends SqliteAction<T[]> {
         const select = this.getSelectColumns(this.model.columns)
         console.log('SELECT', select)
         const where = this.getWhereStatement(this.model.where ?? [])
+        console.log('MODEL WHERE', this.model.where)
         console.log('WHERE', where)
 
         const order = this.getOrderStatement(this.model.orderBy)
