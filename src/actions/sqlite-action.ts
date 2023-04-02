@@ -53,7 +53,7 @@ export abstract class SqliteAction<T = any> extends DatabaseAction<T> {
     }
 
     protected getSelectColumns(columns: string[]) {
-        return columns ? columns.join(', ') : '*'
+        return columns && columns.length ? columns.join(', ') : '*'
     }
 
     protected getOrderStatement(orderbys: OrderBy[]) {

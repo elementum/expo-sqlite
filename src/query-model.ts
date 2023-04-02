@@ -5,11 +5,11 @@ export class QueryModel {
 
     selector: (obj: any) => any = (obj) => obj
 
-    columns: string[] = undefined
+    columns: string[] = []
 
     where: WhereModel[] = []
 
-    orderBy: OrderBy[]
+    orderBy: OrderBy[] = []
 }
 
 export type OrderBy = {

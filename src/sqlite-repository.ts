@@ -13,7 +13,7 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
         protected table: string,
         protected query?: Partial<QueryModel>
     ) {
-        this.query = this.query || {}
+        this.query = this.query || new QueryModel()
     }
 
     many() {
