@@ -1,7 +1,6 @@
 import { QueryModel } from '@elementum/expo-sqlite'
 import { ExpoSqliteClient } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
-import { getValue } from '../value-factory.js'
 
 export class BatchUpdateAction<T = any> extends SqliteAction<T> {
     constructor(client: ExpoSqliteClient, private query: Partial<QueryModel>, private table: string) {
@@ -16,16 +15,22 @@ export class BatchUpdateAction<T = any> extends SqliteAction<T> {
     }
 
     async invoke() {
+        const params = []
         let sql = `UPDATE ${this.table} SET `
         sql += Object.entries(this.setters)
-            .map((e) => `${e[0]} = ${getValue(e[1])}`)
+            .map((e) => {
+                params.push(e[1])
+                return `${e[0]} = ?`
+            })
             .join(', ')
 
-        if (this.query.where) {
-            sql += ` WHERE ${this.query.where.join(' AND ')}`
+        const whereStatement = this.getWhereStatement(this.query.where)
+        if (whereStatement) {
+            sql += whereStatement.statement
+            params.push(whereStatement.statement)
         }
 
-        await this.client.write(sql)
+        await this.client.write(sql, params)
         return null
     }
 }
