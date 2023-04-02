@@ -28,6 +28,8 @@ export abstract class SqliteQueryable<T> implements IQueryable<T> {
         const rows = await action.invoke()
         return rows[0]
     }
+
+    translate() {}
 }
 
 class SealedRepository<T> extends SqliteQueryable<T> {}
@@ -129,4 +131,6 @@ export abstract class SqliteRepository<T extends BaseEntity, TRepository>
             selector,
         })
     }
+
+    join<TOther, TValue>(other: IQueryable<TOther>, thisKey: (doc: T) => TValue, thatKey: (doc: TOther) => TValue) {}
 }

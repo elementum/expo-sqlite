@@ -1,6 +1,7 @@
 import { QueryModel } from '@elementum/expo-sqlite'
 import { ExpoSqliteClient } from '../client.js'
 import { SqliteAction } from './sqlite-action.js'
+import sqlTranslator from '../sql-translator.js'
 
 export class BatchUpdateAction<T = any> extends SqliteAction<T> {
     constructor(client: ExpoSqliteClient, private query: Partial<QueryModel>, private table: string) {
@@ -24,7 +25,7 @@ export class BatchUpdateAction<T = any> extends SqliteAction<T> {
             })
             .join(', ')
 
-        const whereStatement = this.getWhereStatement(this.query.where)
+        const whereStatement = sqlTranslator.translateWhere(this.query.where)
         if (whereStatement) {
             sql += whereStatement.statement
             params = [...params, ...whereStatement.params]
