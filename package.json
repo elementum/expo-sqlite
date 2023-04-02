@@ -21,7 +21,7 @@
     "dependencies": {
         "@elementum/db": "^3.0.0",
         "@elementum/logging": "^2.0.0",
-        "@elementum/toolkit": "^3.0.0",
+        "@elementum/toolkit": "^3.2.0",
         "expo-sqlite": "~11.0.0"
     },
     "devDependencies": {

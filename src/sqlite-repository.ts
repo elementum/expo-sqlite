@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { DatabaseAction, IQueryable, IRepository } from '@elementum/db'
-import { PartialDeep } from '@elementum/toolkit/types'
+import { PartialDeep } from '@elementum/toolkit'
 import { fieldAccessor } from './field-accessor.js'
 import { QueryModel, WhereOperation } from './query-model.js'
 import { ExpoSqliteProvider } from './sqlite-provider.js'
